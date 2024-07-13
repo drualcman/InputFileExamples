@@ -1,0 +1,12 @@
+﻿@page "/basic" 
+
+<h3>Basic</h3>
+
+<InputFileComponent OnAddFile="AddFile" />
+
+@code {
+    void AddFile(FileUploadEventArgs selection)
+    {
+        Console.WriteLine($"File name: {selection.File.Name}");    
+    }
+}

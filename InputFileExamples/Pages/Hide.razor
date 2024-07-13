@@ -1,0 +1,61 @@
+﻿@page "/hide"
+
+<h3>Drag and drop, paste but hiden object</h3>
+
+<div class="field">
+    <label class="label">WHen type i can upload files</label>
+    <div class="control">
+        <input class="input" @bind=Text />
+    </div>
+</div>
+
+@if (ShowInputFile)
+{
+    <div class="drop-wrapper">
+        <InputFileComponent OnChange="AddFile" Parameters="Parameters">
+            <InputContent>
+                <p>Drag files here or click to choose</p>
+            </InputContent>
+        </InputFileComponent>
+    </div>
+}
+
+@if (!String.IsNullOrEmpty(Messages))
+{
+    <article class="message">
+        <div class="message-body">
+            @Messages
+        </div>
+    </article>
+}
+
+@code {
+    bool ShowInputFile = false;
+    private string TextBF;
+
+    public string Text
+    {
+        get { return TextBF; }
+        set 
+        { 
+            TextBF = value;
+            ShowInputFile = Text?.Contains('i', StringComparison.InvariantCultureIgnoreCase) ?? false;
+        }
+    }
+    string Messages;
+
+    InputFileParameters Parameters = new InputFileParameters
+        {
+            AllowPasteFiles = true,
+            DragAndDropOptions = new DragAndDropOptions
+            {
+                CanDropFiles = true
+            },
+
+        };
+
+    void AddFile(FilesUploadEventArgs selection)
+    {
+        Messages = $"File name: {string.Join(',', selection.Files.Select(n=> n.Name))}";
+    }
+}

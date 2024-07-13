@@ -1,0 +1,7 @@
+﻿.drop-wrapper ::deep .input-file.drop-zone {
+    border: none;
+    box-shadow: none;
+    background: none;
+    width: 100%;
+    height: 150px;
+}
