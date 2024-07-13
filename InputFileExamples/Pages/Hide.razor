@@ -5,7 +5,7 @@
 <div class="field">
     <label class="label">WHen type i can upload files</label>
     <div class="control">
-        <input class="input" @bind=Text />
+        <input class="input" @onkeyup=KeyUp />
     </div>
 </div>
 
@@ -54,6 +54,11 @@
             },
 
         };
+
+    void KeyUp(KeyboardEventArgs e)
+    {
+        Text = e.Key;
+    }
 
     void AddFile(FilesUploadEventArgs selection)
     {
