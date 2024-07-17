@@ -7,18 +7,23 @@
     <div class="control">
         <input class="input" @onkeyup=KeyUp />
     </div>
+</div> 
+<div class="field">
+    <label class="checkbox">
+        <input type="checkbox" @bind=CancelClick />
+        Cancel Click
+    </label>
 </div>
 
-@if (ShowInputFile)
-{
-    <div class="drop-wrapper">
-        <InputFileComponent OnChange="AddFile" Parameters="Parameters">
-            <InputContent>
-                <p>Drag files here or click to choose</p>
-            </InputContent>
-        </InputFileComponent>
-    </div>
-}
+
+<div class="drop-wrapper" >
+    <InputFileComponent @ref=InputFileComponentReference OnChange="AddFile" Parameters="Parameters">
+        <InputContent>
+            <p>Drag files here or click to choose</p>
+        </InputContent>
+    </InputFileComponent>
+</div>
+
 <p>Can hide the text with 2 options. Or not add nothing inside of the ChildContent <strong>InputContent</strong> or in the CSS .drop-wrapper ::deep .input-file.drop-zone add color: transparent</p>
 
 @if (!String.IsNullOrEmpty(Messages))
@@ -28,40 +33,4 @@
             @Messages
         </div>
     </article>
-}
-
-@code {
-    bool ShowInputFile = false;
-    private string TextBF;
-
-    public string Text
-    {
-        get { return TextBF; }
-        set 
-        { 
-            TextBF = value;
-            ShowInputFile = Text?.Contains('i', StringComparison.InvariantCultureIgnoreCase) ?? false;
-        }
-    }
-    string Messages;
-
-    InputFileParameters Parameters = new InputFileParameters
-        {
-            AllowPasteFiles = true,
-            DragAndDropOptions = new DragAndDropOptions
-            {
-                CanDropFiles = true
-            },
-
-        };
-
-    void KeyUp(KeyboardEventArgs e)
-    {
-        Text = e.Key;
-    }
-
-    void AddFile(FilesUploadEventArgs selection)
-    {
-        Messages = $"File name: {string.Join(',', selection.Files.Select(n=> n.Name))}";
-    }
 }
